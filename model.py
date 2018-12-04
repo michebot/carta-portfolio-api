@@ -8,7 +8,7 @@ db = SQLAlchemy()
 
 # from marshmallow import fields, Schema
 
-import datetime
+# import datetime
 
 
 # class Investor(db.Model)
@@ -27,10 +27,9 @@ class Investment(db.Model):
     # table name and columns
     __tablename__ = "investments"
 
-    investment_id = db.Column(db.Integer, primary_key=True, 
+    company_id = db.Column(db.Integer, primary_key=True, 
         autoincrement=True)
-    investment = db.Column(db.String(130), nullable=False)
-    asset = db.Column(db.String(130), nullable=False)
+    company = db.Column(db.String(130), nullable=False)
 
 
     # class constructor
@@ -64,8 +63,8 @@ class Investment(db.Model):
     def __repr__(self):
         """Show info about Investments"""
 
-        return """<Investment id={}, Investment={}, Asset={}"""\
-               .format(self.investment_id, self.investment, self.asset)
+        return """<Company id={}, Company={}"""\
+               .format(self.company_id, self.company)
 
 
 class Transaction(db.Model):
@@ -74,16 +73,16 @@ class Transaction(db.Model):
     # table name and columns
     __tablename__ = "transactions"
 
-    transaction_id = db.Column(db.Integer, primary_key=True, 
-        autoincrement=True)
-    investment_id = db.Column(db.String(130), 
-        db.ForeignKey("investments.investment_id"), nullable=False)
-    investment_date = db.Column(db.DateTime, nullable=False)
+    trx_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    company_id = db.Column(db.Integer, 
+        db.ForeignKey("investments.company_id"), nullable=False)
+    asset = db.Column(db.String(130), nullable=False)
+    trx_date = db.Column(db.DateTime, nullable=False)
     cost_per_share = db.Column(db.Integer, nullable=False)
     amt_of_shares = db. Column(db.Integer, nullable=False)
 
     # define relationships
-    investment = db.relationship("Investment", backref="investment_trx")
+    company = db.relationship("Investment", backref="investment_trx")
 
 
     # class constructor
@@ -119,9 +118,9 @@ class Transaction(db.Model):
     def __repr__(self):
         """Show info about transactions"""
 
-        return """<Transaction id={}, Investment Date={}, 
+        return """<Transaction id={}, Asset={}, Transaction Date={}, 
                Cost per share={}, Amt of shares={}"""\
-               .format(self.transaction_id, self.investment_date, 
+               .format(self.trx_id, self.asset, self.trx_date, 
                        self.cost_per_share, self.amt_of_shares)
 
 
@@ -143,10 +142,9 @@ def connect_to_db(app, db_uri='postgresql:///portfolio_db'):
 
 
 if __name__ == "__main__":
-    # As a convenience, if we run this module interactively, it will leave
-    # you in a state of being able to work with the database directly.
 
-    from api_server import create_app
-    connect_to_db(create_app)
+    from api_server import app
+    # connect_to_db(create_app)
+    connect_to_db(app)
     print("Connected to DB.")
 
