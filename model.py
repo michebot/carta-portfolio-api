@@ -63,7 +63,7 @@ class Investment(db.Model):
     def __repr__(self):
         """Show info about Investments"""
 
-        return """<Company id={}, Company={}"""\
+        return """<Company id={}, Company={}>"""\
                .format(self.company_id, self.company)
 
 
@@ -77,9 +77,11 @@ class Transaction(db.Model):
     company_id = db.Column(db.Integer, 
         db.ForeignKey("investments.company_id"), nullable=False)
     asset = db.Column(db.String(130), nullable=False)
-    trx_date = db.Column(db.DateTime, nullable=False)
+    # date
+    date = db.Column(db.DateTime, nullable=False)
     cost_per_share = db.Column(db.Integer, nullable=False)
-    amt_of_shares = db. Column(db.Integer, nullable=False)
+    # num_shares
+    num_shares = db. Column(db.Integer, nullable=False)
 
     # define relationships
     company = db.relationship("Investment", backref="investment_trx")
@@ -118,10 +120,10 @@ class Transaction(db.Model):
     def __repr__(self):
         """Show info about transactions"""
 
-        return """<Transaction id={}, Asset={}, Transaction Date={}, 
-               Cost per share={}, Amt of shares={}"""\
-               .format(self.trx_id, self.asset, self.trx_date, 
-                       self.cost_per_share, self.amt_of_shares)
+        return """<Transaction id={}, Asset={}, Date={}, 
+               Cost per share={}, Num shares={}>"""\
+               .format(self.trx_id, self.asset, self.date, 
+                       self.cost_per_share, self.num_shares)
 
 
 
