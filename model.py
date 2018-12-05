@@ -70,7 +70,6 @@ def connect_to_db(app, db_uri='postgresql:///portfolio_db'):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
-    # db.create_all()
 
 
 def load_investments():
@@ -136,4 +135,15 @@ if __name__ == "__main__":
     # connect_to_db(create_app)
     connect_to_db(app)
     print("Connected to DB.")
+    
+    # creates tables
+    db.create_all()
+    print("Created tables.")
 
+    # load companies
+    load_investments()
+    print("Populated investments.")
+
+    # load investment transactions
+    load_transactions()
+    print("Populated transactions.")

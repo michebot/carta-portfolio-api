@@ -14,6 +14,10 @@ from model import Transaction, Investment, db, connect_to_db
 # app initialization
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return jsonify("Carta Investor Services Fellowship Portfolio API by Michelle Espinosa")
+
 
 ### COMPANY API ROUTES ###
 @app.route("/company", methods=["POST"])
@@ -98,7 +102,7 @@ def create_investment():
 
 
 # PATCH REQUESTS for updating investments as buy/sell
-@app.route("/investments/<investment_id>", methods=["POST"])
+@app.route("/investments/<investment_id>", methods=["PATCH"])
 def PATCH_investment(investment_id):
     """API endpoint to update existing investments as we buy/sell shares"""
 
@@ -106,12 +110,13 @@ def PATCH_investment(investment_id):
 
     # querying for investment transaction to update
     update_investment = Transaction.query.get(investment_id)
-
-    update_investment.num_shares = new_data["num_shares"]
-    update_investment.cost_per_share = new_data["cost_per_share"]
+    if new_data["num_shares"]:
+        update_investment.num_shares = new_data["num_shares"]
+    if new_data["cost_per_share"]:
+        update_investment.cost_per_share = new_data["cost_per_share"]
     db.session.commit()
 
-    return ""
+    return jsonify({"message": "Investment updated."})
 
 
 
