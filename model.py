@@ -7,16 +7,6 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-# class Investor(db.Model)
-#     """Investors model"""
-
-#     # table name and columns
-#     __tablename__ = "investors"
-
-#     investor_id = db.Column(db.Integer, primary_key=True)
-#     investor_name = db.Column(db.String(130), nullable=False)
-
-
 class Investment(db.Model):
     """Investments in companies model"""
 
@@ -49,7 +39,7 @@ class Transaction(db.Model):
     cost_per_share = db.Column(db.Integer, nullable=False)
     num_shares = db. Column(db.Integer, nullable=False)
 
-    # define relationships
+    # defining relationships
     company = db.relationship("Investment", backref="investment_trx")
 
     def __repr__(self):
@@ -75,7 +65,7 @@ def connect_to_db(app, db_uri='postgresql:///portfolio_db'):
 def load_investments():
     """Load investments into database."""
 
-    # Delete all rows in table, so duplicate companies won't be made
+    # Deletes all rows in table, so duplicate companies won't be made
     Investment.query.delete()
 
     investments = ["Arcanerover", "Berry Cloud Inc.", "BetaHex", 
@@ -94,7 +84,7 @@ def load_investments():
 def load_transactions():
     """Load transactions into database."""
 
-    # Delete all rows in table, so duplicate transactions won't be made.
+    # Deletes all rows in table, so duplicate transactions won't be made.
     Transaction.query.delete()
 
     arcanerover_a = Transaction(company_id=1, 
@@ -132,7 +122,6 @@ def load_transactions():
 if __name__ == "__main__":
 
     from api_server import app
-    # connect_to_db(create_app)
     connect_to_db(app)
     print("Connected to DB.")
     
@@ -140,10 +129,10 @@ if __name__ == "__main__":
     db.create_all()
     print("Created tables.")
 
-    # load companies
+    # load investments table
     load_investments()
     print("Populated investments.")
 
-    # load investment transactions
+    # load transactions table
     load_transactions()
     print("Populated transactions.")

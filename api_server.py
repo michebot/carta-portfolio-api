@@ -69,7 +69,6 @@ def get_all_investments():
     output = []
 
     for investment in investments:
-
         investment_data = {}
         # querying for the company's name
         company = Investment.query.get(investment.company_id)
@@ -101,7 +100,6 @@ def create_investment():
     return jsonify({"message": "New investment transaction."})
 
 
-# PATCH REQUESTS for updating investments as buy/sell
 @app.route("/investments/<investment_id>", methods=["PATCH"])
 def PATCH_investment(investment_id):
     """API endpoint to update existing investments as we buy/sell shares"""
