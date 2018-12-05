@@ -54,25 +54,25 @@ We will also need endpoints to create new investments, and to update existing in
 
 ## Usage
 
-#### GET get_all_investments
+#### GET: get_all_investments
 If a date isn't passed, it will return all investments as of today:
 ```
 http://127.0.0.1:5000/investments
 ```
 
-If a data is passed, it will return all investments up until the date passed:
+If a date is passed, it will return all investments up until that date:
 ```
 http://127.0.0.1:5000/investments?date=2018-01-01
 ```
 
-#### POST create_investment
-Creates a new investment transaction by specifying company id, asset, date (or no date if it happened on the same day). cost, and quantity.
+#### POST: create_investment
+Creates a new investment transaction by specifying company id, asset, date (if no date is passed, the current date will be set) cost, and quantity.
 ```
 curl -i -X POST -H "Content-Type:application/json" http://127.0.0.1:5000/investments -d '{"company_id": 9, "asset": "Series A Preferred", "cost_per_share": 300, "num_shares": 300000}'
 ```
 
-#### PATCH PATCH_investment
-Using the transaction id, update the quantity and/or cost of the investment.
+#### PATCH: PATCH_investment
+Using the transaction id, update the quantity and cost of the investment.
 ```
 curl -i -X PATCH -H "Content-Type:application/json" http://127.0.0.1:5000/investments/4 -d '{"num_shares": 15000, "cost_per_share": 30}'
 ```

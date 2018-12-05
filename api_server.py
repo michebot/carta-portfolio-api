@@ -110,10 +110,8 @@ def PATCH_investment(investment_id):
 
     # querying for investment transaction to update
     update_investment = Transaction.query.get(investment_id)
-    if new_data["num_shares"]:
-        update_investment.num_shares = new_data["num_shares"]
-    if new_data["cost_per_share"]:
-        update_investment.cost_per_share = new_data["cost_per_share"]
+    update_investment.num_shares = new_data["num_shares"]
+    update_investment.cost_per_share = new_data["cost_per_share"]
     db.session.commit()
 
     return jsonify({"message": "Investment updated."})
