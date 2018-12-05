@@ -58,7 +58,7 @@ def get_all_investments():
 
     if date:
         date_obj = datetime.datetime.strptime(date, "%Y-%m-%d")
-        investments = Transaction.query.filter(Transaction.date == date_obj).all()
+        investments = Transaction.query.filter(Transaction.date <= date_obj).all()
     else:
         investments = Transaction.query.all()
 
@@ -97,18 +97,18 @@ def create_investment():
     return jsonify({"message": "New investment transaction."})
 
 
-# PATCH REQUESTS for updating investments as buy/sell (PATCH_investment for fx name)
+# PATCH REQUESTS for updating investments as buy/sell
 @app.route("/investments/<investment_id>", methods=["POST"])
 def PATCH_investment(investment_id):
     """API endpoint to update existing investments as we buy/sell shares"""
 
-    update_data = request.get_json()
+    new_data = request.get_json()
 
-    # investment transaction to update
+    # querying for investment transaction to update
     update_investment = Transaction.query.get(investment_id)
 
-    update_investment.num_shares = update_data["num_shares"]
-    update_investment.cost_per_share = update_data["cost_per_share"]
+    update_investment.num_shares = new_data["num_shares"]
+    update_investment.cost_per_share = new_data["cost_per_share"]
     db.session.commit()
 
     return ""
