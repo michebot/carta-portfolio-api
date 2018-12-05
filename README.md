@@ -35,8 +35,14 @@ The response should look something like the following:
 
 We will also need endpoints to create new investments, and to update existing investments as we buy/sell shares (updating the quantity and cost values for that point onward).
 
-## Requirements
+## Tech Stack
+- Python
+- Flask
+- SQLAlchemy
+- PostgreSQL
+- JSON
 
+## Requirements
 - Python3
 - pip3
 
