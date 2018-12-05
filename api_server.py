@@ -51,7 +51,8 @@ def get_all_companies():
 @app.route("/investments", methods=["GET"])
 def get_all_investments():
     """API endpoint that returns the state of all investments on a 
-       given date. Default is investments as of today."""
+       given date. If no date is entered, default is investments 
+       data as of today."""
 
     date = request.args.get("date")
 
@@ -70,16 +71,18 @@ def get_all_investments():
         company = Investment.query.get(investment.company_id)
 
         investment_data["company"] = company.company
-        investment_data["cost"] = investment.cost_per_share
         investment_data["quantity"] = investment.num_shares
+        investment_data["cost"] = investment.cost_per_share
         output.append(investment_data)
 
-    return jsonify({"investments": output})
+    return jsonify(output)
 
 
 @app.route("/investments", methods=["POST"])
 def create_investment():
-    """API endpoint to create new investment transactions."""
+    """API endpoint to create new investment transactions.
+       Note: A company/investment must be created on the investments 
+       table before recording a transaction."""
 
     data = request.get_json()
 
@@ -95,17 +98,23 @@ def create_investment():
 
 
 # PATCH REQUESTS for updating investments as buy/sell (PATCH_investment for fx name)
-@app.route("/investments/<investment_id>", methods=["PUT"])
-def update_investment():
+@app.route("/investments/<investment_id>", methods=["POST"])
+def PATCH_investment(investment_id):
     """API endpoint to update existing investments as we buy/sell shares"""
+
+    update_data = request.get_json()
+
+    # investment transaction to update
+    update_investment = Transaction.query.get(investment_id)
+
+    update_investment.num_shares = update_data["num_shares"]
+    update_investment.cost_per_share = update_data["cost_per_share"]
+    db.session.commit()
+
     return ""
 
 
 
 if __name__ == "__main__":
-
-    # env_name = os.getenv("FLASK_ENV")
-    # app = create_app(env_name)
-    # run app
     connect_to_db(app)
     app.run(debug=True, host="0.0.0.0")

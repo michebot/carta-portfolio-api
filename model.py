@@ -1,14 +1,10 @@
 # model.py
 
-"""Models and database functions for the Portfolio db"""
+"""Models and database functions for portfolio_db."""
 
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-
-# from marshmallow import fields, Schema
-
-# import datetime
 
 
 # class Investor(db.Model)
@@ -30,35 +26,6 @@ class Investment(db.Model):
     company_id = db.Column(db.Integer, primary_key=True, 
         autoincrement=True)
     company = db.Column(db.String(130), nullable=False)
-
-
-    # class constructor
-    # def __init__(self, data):
-    #     """Class constructor"""
-
-    #     self.investment = data.get("investment")
-    #     self.asset = data.get("asset")
-
-    # def save(self):
-    #     db.session.add(self)
-    #     db.session.commit()
-
-    # def update(self, data):
-    #     for key, item in data.items():
-    #         setattr(self, key, item)
-    #     db.dession.commit()
-
-    # # def delete(self):
-    # #     db.session.delete(self)
-    # #     db.session.commit()
-
-    # @staticmethod
-    # def get_all_investments():
-    #     return Investment.query.all()
-
-    # @staticmethod
-    # def get_one_investment(id):
-    #     return Investment.query.get(id)
 
     def __repr__(self):
         """Show info about Investments"""
@@ -86,37 +53,6 @@ class Transaction(db.Model):
     # define relationships
     company = db.relationship("Investment", backref="investment_trx")
 
-
-    # class constructor
-    # def __init__(self, data):
-    #     """Class constructor"""
-
-    #     self.investment_date = datetime.datetime.utcnow()
-    #     self.cost_per_share = data.get("cost_per_share")
-    #     self.amt_of_shares = data.get("amt_of_shares")
-
-    # def save(self):
-    #     db.session.add(self)
-    #     db.session.commit()
-
-    # def update(self, data):
-    #     for key, item in data.items():
-    #         setattr(self, key, item)
-    #     self.investment_date = datetime.datetime.utcnow()
-    #     db.dession.commit()
-
-    # # def delete(self):
-    # #     db.session.delete(self)
-    # #     db.session.commit()
-
-    # @staticmethod
-    # def get_all_transactions():
-    #     return Transaction.query.all()
-
-    # @staticmethod
-    # def get_one_transaction(id):
-    #     return Transaction.query.get(id)
-
     def __repr__(self):
         """Show info about transactions"""
 
@@ -126,12 +62,7 @@ class Transaction(db.Model):
                        self.cost_per_share, self.num_shares)
 
 
-
-
-##############################################################################
-# Helper functions
-
-
+### Helper functions ###
 def connect_to_db(app, db_uri='postgresql:///portfolio_db'):
     """Connect the database to our Flask app."""
 
